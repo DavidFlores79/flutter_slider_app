@@ -13,9 +13,9 @@ class _IntroSliderState extends State<IntroSlider> {
   int _activePage = 0;
 
   final List<Widget> _pages = [
-    const EachPage(color: Colors.blueGrey, title: 'First Page'),
-    const EachPage(color: Colors.red, title: 'Second Page'),
-    const EachPage(color: Colors.green, title: 'Last Page!'),
+    EachPage(color: Colors.blue[100]!, title: 'First Page'),
+    EachPage(color: Colors.red[100]!, title: 'Second Page'),
+    EachPage(color: Colors.green[100]!, title: 'Last Page!'),
   ];
 
   @override
@@ -29,17 +29,19 @@ class _IntroSliderState extends State<IntroSlider> {
       body: Stack(
         children: [
           // the page view
-          PageView.builder(
-            controller: _pageController,
-            onPageChanged: (int page) {
-              setState(() {
-                _activePage = page;
-              });
-            },
-            itemCount: _pages.length,
-            itemBuilder: (BuildContext context, int index) {
-              return _pages[index % _pages.length];
-            },
+          IgnorePointer(
+            child: PageView.builder(
+              controller: _pageController,
+              onPageChanged: (int page) {
+                setState(() {
+                  _activePage = page;
+                });
+              },
+              itemCount: _pages.length,
+              itemBuilder: (BuildContext context, int index) {
+                return _pages[index % _pages.length];
+              },
+            ),
           ),
           // Display the dots indicator
           Positioned(
@@ -48,18 +50,24 @@ class _IntroSliderState extends State<IntroSlider> {
             right: 0,
             height: 100,
             child: Container(
-              color: Colors.black38,
+              // color: Colors.black38,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton(
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.teal,
+                      disabledForegroundColor: Colors.transparent,
+                      disabledBackgroundColor: Colors.transparent,
+                    ),
                     onPressed: (_activePage == 0)
                         ? null
                         : () {
                             print('activePage $_activePage');
 
                             _pageController.previousPage(
-                              duration: const Duration(milliseconds: 300),
+                              duration: const Duration(milliseconds: 500),
                               curve: Curves.easeIn,
                             );
                           },
@@ -68,17 +76,25 @@ class _IntroSliderState extends State<IntroSlider> {
                   const SizedBox(width: 15),
                   (_activePage == _pages.length - 1)
                       ? TextButton(
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.teal,
+                          ),
                           onPressed: () {
                             print('Enviar Formulario!!!');
                           },
                           child: const Text('Enviar Form'),
                         )
                       : TextButton(
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.teal,
+                          ),
                           onPressed: () {
                             print('activePage $_activePage');
 
                             _pageController.nextPage(
-                              duration: const Duration(milliseconds: 300),
+                              duration: const Duration(milliseconds: 500),
                               curve: Curves.easeIn,
                             );
                           },
@@ -131,7 +147,7 @@ class EachPage extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(fontSize: 30, color: Colors.white),
+            style: const TextStyle(fontSize: 30, color: Colors.black),
           ),
         ],
       ),
